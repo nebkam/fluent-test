@@ -1,6 +1,6 @@
 <?php
 
-namespace Nebkam;
+namespace Nebkam\FluentTest;
 
 use Symfony\Bundle\FrameworkBundle\Client;
 
