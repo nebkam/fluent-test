@@ -87,6 +87,20 @@ class RequestBuilder
 		}
 
 	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return RequestBuilder
+	 */
+	public function setHeader(string $key, string $value): RequestBuilder
+		{
+		$this->server = array_merge($this->server, [
+			'HTTP_'.$key => $value
+		]);
+
+		return $this;
+		}
+
+	/**
 	 * @return RequestBuilder
 	 */
 	public function sendAsAdmin(): RequestBuilder
