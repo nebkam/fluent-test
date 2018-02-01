@@ -32,6 +32,16 @@ class RequestBuilder
 	private $server = [];
 
 	/**
+	 * @var array
+	 */
+	private $files = [];
+
+	/**
+	 * @var array
+	 */
+	private $parameters = [];
+
+	/**
 	 * @param Client|null $client
 	 * @return RequestBuilder
 	 */
@@ -116,6 +126,28 @@ class RequestBuilder
 		}
 
 	/**
+	 * @param array $files
+	 * @return RequestBuilder
+	 */
+	public function setFiles(array $files): RequestBuilder
+		{
+		$this->files = $files;
+
+		return $this;
+		}
+
+	/**
+	 * @param array $parameters
+	 * @return RequestBuilder
+	 */
+	public function setParameters(array $parameters): RequestBuilder
+		{
+		$this->parameters = $parameters;
+
+		return $this;
+		}
+
+	/**
 	 * @return RequestBuilder
 	 */
 	public function sendAsAdmin(): RequestBuilder
@@ -133,7 +165,7 @@ class RequestBuilder
 	 */
 	public function getResponse(): ResponseWrapper
 		{
-		$this->client->request($this->method, $this->uri, [], [], $this->server, $this->content);
+		$this->client->request($this->method, $this->uri, $this->parameters, $this->files, $this->server, $this->content);
 
 		return new ResponseWrapper($this->client->getResponse());
 		}
