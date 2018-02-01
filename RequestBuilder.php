@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace Nebkam;
 
 use Symfony\Bundle\FrameworkBundle\Client;
 
