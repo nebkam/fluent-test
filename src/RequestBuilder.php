@@ -32,6 +32,21 @@ class RequestBuilder
 	private $server = [];
 
 	/**
+	 * @param Client|null $client
+	 * @return RequestBuilder
+	 */
+	public static function create($client = null)
+		{
+		$instance = new self();
+		if ($client)
+			{
+			$instance->setClient($client);
+			}
+
+		return $instance;
+		}
+
+	/**
 	 * @param Client $client
 	 * @return RequestBuilder
 	 */
@@ -121,13 +136,5 @@ class RequestBuilder
 		$this->client->request($this->method, $this->uri, [], [], $this->server, $this->content);
 
 		return new ResponseWrapper($this->client->getResponse());
-		}
-
-	/**
-	 * @return RequestBuilder
-	 */
-	public static function create()
-		{
-		return new self();
 		}
 	}
