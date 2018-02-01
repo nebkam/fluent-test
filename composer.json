@@ -1,0 +1,9 @@
+{
+  "name": "nebkam/fluent-test-helper",
+  "description": "A few helpers to ease functional API testing in Symfony",
+  "require": {
+    "php": "^7.0",
+    "symfony/framework-bundle": "^4.0",
+    "symfony/browser-kit": "^4.0"
+  }
+}
