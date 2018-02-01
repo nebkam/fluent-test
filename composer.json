@@ -4,8 +4,8 @@
   "license": "MIT",
   "require": {
     "php": "^7.0",
-    "symfony/framework-bundle": "^4.0",
-    "symfony/browser-kit": "^4.0"
+    "symfony/framework-bundle": "^3.1",
+    "symfony/browser-kit": "^3.1"
   },
   "autoload": {
     "psr-4": {
