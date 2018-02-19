@@ -59,4 +59,12 @@ class ResponseWrapper
 		{
 		return json_decode($this->response->getContent(), true);
 		}
+
+    /**
+     * @return string
+     */
+    public function getRawContent()
+        {
+        return $this->response->getContent();
+        }
 	}
