@@ -42,6 +42,16 @@ class RequestBuilder
 	private $parameters = [];
 
 	/**
+	 * @var string
+	 */
+	private $defaultUsername;
+
+	/**
+	 * @var string
+	 */
+	private $defaultPassword;
+
+	/**
 	 * @param Client|null $client
 	 * @return RequestBuilder
 	 */
@@ -148,6 +158,76 @@ class RequestBuilder
 		}
 
 	/**
+	 * @return string|null
+	 */
+	public function getDefaultUsername()
+		{
+		return $this->defaultUsername;
+		}
+
+	/**
+	 * @param string|null $defaultUsername
+	 * @return RequestBuilder
+	 */
+	public function setDefaultUsername($defaultUsername): RequestBuilder
+		{
+		$this->defaultUsername = $defaultUsername;
+
+		return $this;
+		}
+
+	/**
+	 * @return string|null
+	 */
+	public function getDefaultPassword()
+		{
+		return $this->defaultPassword;
+		}
+
+	/**
+	 * @param string|null $defaultPassword
+	 * @return RequestBuilder
+	 */
+	public function setDefaultPassword($defaultPassword): RequestBuilder
+		{
+		$this->defaultPassword = $defaultPassword;
+
+		return $this;
+		}
+
+
+	/**
+	 * Sets Basic Auth headers based on passed or default credentials
+	 *
+	 * @param null|string $username
+	 * @param null|string $password
+	 * @return RequestBuilder
+	 */
+	public function sendWithCredentials($username = null, $password = null): RequestBuilder
+		{
+		// Since PHP can't handle expressions as default function arguments..
+		$username = $username ? $username : $this->getDefaultUsername();
+		$password = $password ? $password : $this->getDefaultPassword();
+
+		if ($username === null)
+			{
+			throw new \LogicException('Either provide username or set the default username');
+			}
+		if ($password === null)
+			{
+			throw new \LogicException('Either provide password or set the default password');
+			}
+
+		$this->server = array_merge($this->server, [
+			'PHP_AUTH_USER' => $username,
+			'PHP_AUTH_PW'   => $password
+		]);
+
+		return $this;
+		}
+
+	/**
+	 * @deprecated Use sendWithCredentials
 	 * @return RequestBuilder
 	 */
 	public function sendAsAdmin(): RequestBuilder
