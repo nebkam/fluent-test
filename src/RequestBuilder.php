@@ -52,6 +52,11 @@ class RequestBuilder
 	private $defaultPassword;
 
 	/**
+	 * @var bool
+	 */
+	private static $CLEAR_CREDENTIALS_AFTER_REQUEST = false;
+
+	/**
 	 * @param Client|null $client
 	 * @return RequestBuilder
 	 */
@@ -195,6 +200,19 @@ class RequestBuilder
 		return $this;
 		}
 
+	/**
+	 * Sets Basic Auth headers based on passed or default credentials *for one request only*
+	 *
+	 * @param null|string $username
+	 * @param null|string $password
+	 * @return RequestBuilder
+	 */
+	public function useCredentialsOnce($username = null, $password = null): RequestBuilder
+		{
+		self::$CLEAR_CREDENTIALS_AFTER_REQUEST = true;
+
+		return $this->setCredentials($username,$password);
+		}
 
 	/**
 	 * Sets Basic Auth headers based on passed or default credentials
@@ -203,7 +221,7 @@ class RequestBuilder
 	 * @param null|string $password
 	 * @return RequestBuilder
 	 */
-	public function sendWithCredentials($username = null, $password = null): RequestBuilder
+	public function setCredentials($username = null, $password = null): RequestBuilder
 		{
 		// Since PHP can't handle expressions as default function arguments..
 		$username = $username ? $username : $this->getDefaultUsername();
@@ -227,6 +245,38 @@ class RequestBuilder
 		}
 
 	/**
+	 * @return RequestBuilder
+	 */
+	public function unsetCredentials(): RequestBuilder
+		{
+		if (isset($this->server['PHP_AUTH_USER']))
+			{
+			unset($this->server['PHP_AUTH_USER']);
+			}
+		if (isset($this->server['PHP_AUTH_PW']))
+			{
+			unset($this->server['PHP_AUTH_PW']);
+			}
+
+		return $this;
+		}
+
+
+	/**
+	 * @deprecated Ambiguous. Use more semantic setCredentials or useCredentialsOnce
+	 *
+	 * Sets Basic Auth headers based on passed or default credentials
+	 *
+	 * @param null|string $username
+	 * @param null|string $password
+	 * @return RequestBuilder
+	 */
+	public function sendWithCredentials($username = null, $password = null): RequestBuilder
+		{
+		return $this->setCredentials($username,$password);
+		}
+
+	/**
 	 * @deprecated Use sendWithCredentials
 	 * @return RequestBuilder
 	 */
@@ -247,6 +297,14 @@ class RequestBuilder
 		{
 		$this->client->request($this->method, $this->uri, $this->parameters, $this->files, $this->server, $this->content);
 
-		return new ResponseWrapper($this->client->getResponse());
+		$responseWrapper = new ResponseWrapper($this->client->getResponse());
+
+		if (self::$CLEAR_CREDENTIALS_AFTER_REQUEST)
+			{
+			$this->unsetCredentials();
+			self::$CLEAR_CREDENTIALS_AFTER_REQUEST = false; //back to default
+			}
+
+		return $responseWrapper;
 		}
 	}
