@@ -140,6 +140,16 @@ class RequestBuilder
 		return $this;
 		}
 
+    /**
+     * @return $this
+     */
+    public function unsetHeaders()
+        {
+        $this->server = [];
+
+        return $this;
+        }
+
 	/**
 	 * @param array $files
 	 * @return RequestBuilder
