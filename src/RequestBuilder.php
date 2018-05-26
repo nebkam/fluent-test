@@ -83,6 +83,14 @@ class RequestBuilder
 		}
 
 	/**
+	 * @return Client
+	 */
+	public function getClient()
+		{
+		return $this->client;
+		}
+
+	/**
 	 * @param string $method
 	 * @return RequestBuilder
 	 */
