@@ -22,8 +22,38 @@ $response = RequestBuilder::create($client)
 ```
 ### What about $server parameter?
 There's no `RequestBuilder::setServer` method, since it seemed to general to be semantic.
-Instead, you can use more specific `::setCredentials` method.
-If you think of some other uses of server variables, feel free to write a semantic method for it in a PR.
+Instead, you can use more specific methods:
+ - `::setHttpHeader`
+ - `::setHeader`
+ - `::setCredentials`
+
+(if you think of some other uses of server variables, feel free to write a semantic method for it in a PR)
+
+#### Before
+```php
+$response = $client->request($method, $uri, $parameters, $files, [
+  'HTTP_X-Custom-Header' => $value
+  ], $content);
+```
+#### After
+```php
+$response = RequestBuilder::create($client)
+  ->setHttpHeader('X-Custom-Header', $value)
+  ...
+```
+
+#### Before
+```php
+$response = $client->request($method, $uri, $parameters, $files, [
+  'CONTENT_TYPE' => $value
+  ], $content);
+```
+#### After
+```php
+$response = RequestBuilder::create($client)
+  ->setHeader('CONTENT_TYPE', $value)
+  ...
+```
 
 #### Before
 ```php
@@ -35,7 +65,6 @@ $response = $client->request($method, $uri, $parameters, $files, [
 #### After
 ```php
 $response = RequestBuilder::create($client)
-  ...
   ->setCredentials($username, $password)
   ...
 ```
@@ -48,7 +77,6 @@ $response = $client->request($method, $uri, $parameters, $files, $server, json_e
 #### After
 ```php
 $response = RequestBuilder::create($client)
-  ...
   ->setJsonContent($content)
   ...
 ```

@@ -139,10 +139,24 @@ class RequestBuilder
 	 * @param string $value
 	 * @return RequestBuilder
 	 */
-	public function setHeader(string $key, string $value): RequestBuilder
+	public function setHttpHeader(string $key, string $value): RequestBuilder
 		{
 		$this->server = array_merge($this->server, [
 			'HTTP_'.$key => $value
+		]);
+
+		return $this;
+		}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return RequestBuilder
+	 */
+	public function setHeader(string $key, string $value): RequestBuilder
+		{
+		$this->server = array_merge($this->server, [
+			$key => $value
 		]);
 
 		return $this;
@@ -254,10 +268,8 @@ class RequestBuilder
 			throw new \LogicException('Either provide password or set the default password');
 			}
 
-		$this->server = array_merge($this->server, [
-			'PHP_AUTH_USER' => $username,
-			'PHP_AUTH_PW'   => $password
-		]);
+		$this->setHeader('PHP_AUTH_USER', $username);
+		$this->setHeader('PHP_AUTH_PW', $password);
 
 		return $this;
 		}
@@ -275,35 +287,6 @@ class RequestBuilder
 			{
 			unset($this->server['PHP_AUTH_PW']);
 			}
-
-		return $this;
-		}
-
-
-	/**
-	 * @deprecated Ambiguous. Use more semantic setCredentials or useCredentialsOnce
-	 *
-	 * Sets Basic Auth headers based on passed or default credentials
-	 *
-	 * @param null|string $username
-	 * @param null|string $password
-	 * @return RequestBuilder
-	 */
-	public function sendWithCredentials($username = null, $password = null): RequestBuilder
-		{
-		return $this->setCredentials($username,$password);
-		}
-
-	/**
-	 * @deprecated Use sendWithCredentials
-	 * @return RequestBuilder
-	 */
-	public function sendAsAdmin(): RequestBuilder
-		{
-		$this->server = array_merge($this->server, [
-			'PHP_AUTH_USER' => 'admin',
-			'PHP_AUTH_PW'   => $this->client->getContainer()->getParameter('test_admin_pass')
-		]);
 
 		return $this;
 		}
