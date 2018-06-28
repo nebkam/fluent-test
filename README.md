@@ -22,7 +22,7 @@ $response = RequestBuilder::create($client)
 ```
 ### What about $server parameter?
 There's no `RequestBuilder::setServer` method, since it seemed to general to be semantic.
-Instead, you can use more specific methods:
+Instead, you can use more specific methods (Thanks, @KristijanKanalas):
  - `::setHttpHeader`
  - `::setHeader`
  - `::setCredentials`
