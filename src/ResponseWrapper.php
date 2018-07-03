@@ -3,6 +3,7 @@
 namespace Nebkam\FluentTest;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ResponseWrapper
 	{
@@ -108,4 +109,11 @@ class ResponseWrapper
         return $this->response->getStatusCode();
         }
 
+	/**
+	 * @return ResponseHeaderBag
+	 */
+	public function getHeaders(): ResponseHeaderBag
+		{
+		return $this->response->headers;
+		}
 	}
