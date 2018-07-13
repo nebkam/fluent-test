@@ -116,4 +116,12 @@ class ResponseWrapper
 		{
 		return $this->response->headers;
 		}
+
+	/**
+	 * @return Response
+	 */
+	public function getResponse(): Response
+		{
+		return $this->response;
+		}
 	}
