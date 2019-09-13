@@ -2,6 +2,7 @@
 
 namespace Nebkam\FluentTest;
 
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Client;
 
 class RequestBuilder
@@ -58,9 +59,9 @@ class RequestBuilder
 
 	/**
 	 * @param Client|null $client
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public static function create($client = null)
+	public static function create($client = null): self
 		{
 		$instance = new self();
 		if ($client)
@@ -73,9 +74,9 @@ class RequestBuilder
 
 	/**
 	 * @param Client $client
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setClient(Client $client): RequestBuilder
+	public function setClient(Client $client): self
 		{
 		$this->client = $client;
 
@@ -83,7 +84,7 @@ class RequestBuilder
 		}
 
 	/**
-	 * @return Client
+	 * @return Client|null
 	 */
 	public function getClient()
 		{
@@ -92,9 +93,9 @@ class RequestBuilder
 
 	/**
 	 * @param string $method
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setMethod(string $method): RequestBuilder
+	public function setMethod(string $method): self
 		{
 		$this->method = $method;
 
@@ -103,9 +104,9 @@ class RequestBuilder
 
 	/**
 	 * @param string $uri
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setUri(string $uri): RequestBuilder
+	public function setUri(string $uri): self
 		{
 		$this->uri = $uri;
 
@@ -114,9 +115,9 @@ class RequestBuilder
 
 	/**
 	 * @param string $content
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setContent(string $content): RequestBuilder
+	public function setContent(string $content): self
 		{
 		$this->content = $content;
 
@@ -125,9 +126,9 @@ class RequestBuilder
 
 	/**
 	 * @param mixed $content
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setJsonContent($content): RequestBuilder
+	public function setJsonContent($content): self
 		{
 		$this->content = json_encode($content);
 
@@ -137,9 +138,9 @@ class RequestBuilder
 	/**
 	 * @param string $key
 	 * @param string $value
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setHttpHeader(string $key, string $value): RequestBuilder
+	public function setHttpHeader(string $key, string $value): self
 		{
 		$this->server = array_merge($this->server, [
 			'HTTP_'.$key => $value
@@ -151,9 +152,9 @@ class RequestBuilder
 	/**
 	 * @param string $key
 	 * @param string $value
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setHeader(string $key, string $value): RequestBuilder
+	public function setHeader(string $key, string $value): self
 		{
 		$this->server = array_merge($this->server, [
 			$key => $value
@@ -165,8 +166,8 @@ class RequestBuilder
     /**
      * @return $this
      */
-    public function unsetHeaders()
-        {
+    public function unsetHeaders(): self
+	    {
         $this->server = [];
 
         return $this;
@@ -174,9 +175,9 @@ class RequestBuilder
 
 	/**
 	 * @param array $files
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setFiles(array $files): RequestBuilder
+	public function setFiles(array $files): self
 		{
 		$this->files = $files;
 
@@ -185,9 +186,9 @@ class RequestBuilder
 
 	/**
 	 * @param array $parameters
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setParameters(array $parameters): RequestBuilder
+	public function setParameters(array $parameters): self
 		{
 		$this->parameters = $parameters;
 
@@ -204,9 +205,9 @@ class RequestBuilder
 
 	/**
 	 * @param string|null $defaultUsername
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setDefaultUsername($defaultUsername): RequestBuilder
+	public function setDefaultUsername($defaultUsername): self
 		{
 		$this->defaultUsername = $defaultUsername;
 
@@ -223,9 +224,9 @@ class RequestBuilder
 
 	/**
 	 * @param string|null $defaultPassword
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setDefaultPassword($defaultPassword): RequestBuilder
+	public function setDefaultPassword($defaultPassword): self
 		{
 		$this->defaultPassword = $defaultPassword;
 
@@ -237,9 +238,9 @@ class RequestBuilder
 	 *
 	 * @param null|string $username
 	 * @param null|string $password
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function useCredentialsOnce($username = null, $password = null): RequestBuilder
+	public function useCredentialsOnce($username = null, $password = null): self
 		{
 		self::$CLEAR_CREDENTIALS_AFTER_REQUEST = true;
 
@@ -251,9 +252,9 @@ class RequestBuilder
 	 *
 	 * @param null|string $username
 	 * @param null|string $password
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function setCredentials($username = null, $password = null): RequestBuilder
+	public function setCredentials($username = null, $password = null): self
 		{
 		// Since PHP can't handle expressions as default function arguments..
 		$username = $username ? $username : $this->getDefaultUsername();
@@ -261,11 +262,11 @@ class RequestBuilder
 
 		if ($username === null)
 			{
-			throw new \LogicException('Either provide username or set the default username');
+			throw new LogicException('Either provide username or set the default username');
 			}
 		if ($password === null)
 			{
-			throw new \LogicException('Either provide password or set the default password');
+			throw new LogicException('Either provide password or set the default password');
 			}
 
 		$this->setHeader('PHP_AUTH_USER', $username);
@@ -275,9 +276,9 @@ class RequestBuilder
 		}
 
 	/**
-	 * @return RequestBuilder
+	 * @return self
 	 */
-	public function unsetCredentials(): RequestBuilder
+	public function unsetCredentials(): self
 		{
 		if (isset($this->server['PHP_AUTH_USER']))
 			{

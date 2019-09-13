@@ -5,7 +5,8 @@
   "require": {
     "php": "^7.0",
     "symfony/framework-bundle": "^3.1 || ^4.0",
-    "symfony/browser-kit": "^3.1 || ^4.0"
+    "symfony/browser-kit": "^3.1 || ^4.0",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
