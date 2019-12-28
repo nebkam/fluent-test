@@ -3,14 +3,14 @@
 namespace Nebkam\FluentTest;
 
 use LogicException;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class RequestBuilder
 	{
 	/**
-	 * @var Client
+	 * @var KernelBrowser
 	 */
-	private $client;
+	private $kernelBrowser;
 
 	/**
 	 * @var string
@@ -58,37 +58,58 @@ class RequestBuilder
 	private static $CLEAR_CREDENTIALS_AFTER_REQUEST = false;
 
 	/**
-	 * @param Client|null $client
+	 * @param KernelBrowser|null $kernelBrowser
 	 * @return self
 	 */
-	public static function create($client = null): self
+	public static function create($kernelBrowser = null): self
 		{
 		$instance = new self();
-		if ($client)
+		if ($kernelBrowser)
 			{
-			$instance->setClient($client);
+			$instance->setKernelBrowser($kernelBrowser);
 			}
 
 		return $instance;
 		}
 
 	/**
-	 * @param Client $client
+	 * @param KernelBrowser $kernelBrowser
 	 * @return self
 	 */
-	public function setClient(Client $client): self
+	public function setKernelBrowser(KernelBrowser $kernelBrowser): self
 		{
-		$this->client = $client;
+		$this->kernelBrowser = $kernelBrowser;
 
 		return $this;
 		}
 
 	/**
-	 * @return Client|null
+	 * @deprecated Use setKernelBrowser
+	 * @param KernelBrowser $kernelBrowser
+	 * @return self
+	 */
+	public function setClient(KernelBrowser $kernelBrowser): self
+		{
+		$this->kernelBrowser = $kernelBrowser;
+
+		return $this;
+		}
+
+	/**
+	 * @return KernelBrowser|null
+	 */
+	public function getKernelBrowser()
+		{
+		return $this->kernelBrowser;
+		}
+
+	/**
+	 * @deprecated Use getKernelBrowser
+	 * @return KernelBrowser|null
 	 */
 	public function getClient()
 		{
-		return $this->client;
+		return $this->kernelBrowser;
 		}
 
 	/**
@@ -257,8 +278,8 @@ class RequestBuilder
 	public function setCredentials($username = null, $password = null): self
 		{
 		// Since PHP can't handle expressions as default function arguments..
-		$username = $username ? $username : $this->getDefaultUsername();
-		$password = $password ? $password : $this->getDefaultPassword();
+		$username = $username ?: $this->getDefaultUsername();
+		$password = $password ?: $this->getDefaultPassword();
 
 		if ($username === null)
 			{
@@ -297,9 +318,9 @@ class RequestBuilder
 	 */
 	public function getResponse(): ResponseWrapper
 		{
-		$this->client->request($this->method, $this->uri, $this->parameters, $this->files, $this->server, $this->content);
+		$this->kernelBrowser->request($this->method, $this->uri, $this->parameters, $this->files, $this->server, $this->content);
 
-		$responseWrapper = new ResponseWrapper($this->client->getResponse());
+		$responseWrapper = new ResponseWrapper($this->kernelBrowser->getResponse());
 
 		if (self::$CLEAR_CREDENTIALS_AFTER_REQUEST)
 			{
