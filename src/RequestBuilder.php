@@ -3,12 +3,12 @@
 namespace Nebkam\FluentTest;
 
 use LogicException;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class RequestBuilder
 	{
 	/**
-	 * @var Client
+	 * @var KernelBrowser
 	 */
 	private $client;
 
@@ -58,10 +58,10 @@ class RequestBuilder
 	private static $CLEAR_CREDENTIALS_AFTER_REQUEST = false;
 
 	/**
-	 * @param Client|null $client
+	 * @param KernelBrowser|null $client
 	 * @return self
 	 */
-	public static function create($client = null): self
+	public static function create(?KernelBrowser $client = null): self
 		{
 		$instance = new self();
 		if ($client)
@@ -73,10 +73,10 @@ class RequestBuilder
 		}
 
 	/**
-	 * @param Client $client
+	 * @param KernelBrowser $client
 	 * @return self
 	 */
-	public function setClient(Client $client): self
+	public function setClient(KernelBrowser $client): self
 		{
 		$this->client = $client;
 
@@ -84,9 +84,9 @@ class RequestBuilder
 		}
 
 	/**
-	 * @return Client|null
+	 * @return KernelBrowser|null
 	 */
-	public function getClient()
+	public function getClient(): ?KernelBrowser
 		{
 		return $this->client;
 		}
