@@ -104,11 +104,19 @@ class RequestBuilder
 
 	/**
 	 * @param string $uri
-	 * @return self
+	 * @param mixed ...$args
+	 * @return $this
 	 */
-	public function setUri(string $uri): self
+	public function setUri(string $uri, ...$args): self
 		{
-		$this->uri = $uri;
+		if ($args)
+			{
+			$this->uri = sprintf($uri, ...$args);
+			}
+		else
+			{
+			$this->uri = $uri;
+			}
 
 		return $this;
 		}
