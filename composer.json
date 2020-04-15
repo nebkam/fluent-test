@@ -3,14 +3,22 @@
   "description": "A few helpers to ease functional API testing in Symfony",
   "license": "MIT",
   "require": {
-    "php": "^7.0",
-    "symfony/framework-bundle": "^3.1 || ^4.0",
-    "symfony/browser-kit": "^3.1 || ^4.0",
+    "php": "^7.2",
+    "symfony/framework-bundle": "^4.4 || ^5.0",
+    "symfony/http-foundation": "^4.4 || ^5.0",
     "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
       "Nebkam\\FluentTest\\": "src"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Nebkam\\FluentTest\\Test\\": "tests"
+    }
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "^5.0"
   }
 }
