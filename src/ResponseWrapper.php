@@ -6,122 +6,85 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ResponseWrapper
-	{
-	/**
-	 * @var Response
-	 */
-	private $response;
-
-	/**
-	 * ResponseWrapper constructor.
-	 * @param Response $response
-	 */
-	public function __construct(Response $response)
-		{
-		$this->response = $response;
-		}
-
-	/**
-	 * @return bool
-	 */
-	public function isCreated(): bool
-		{
-		return $this->response->getStatusCode() === Response::HTTP_CREATED;
-		}
-
-	/**
-	 * @return bool
-	 */
-	public function isUnprocessable(): bool
-		{
-		return $this->response->getStatusCode() === Response::HTTP_UNPROCESSABLE_ENTITY;
-		}
-
-	/**
-	 * @return bool
-	 */
-	public function isOk(): bool
-		{
-		return $this->response->isOk();
-		}
-
-	/**
-	 * @return bool
-	 */
-	public function isEmpty(): bool
-		{
-		return $this->response->isEmpty();
-		}
-
+{
     /**
-     * @return bool
+     * @var Response
      */
+    private $response;
+
+    public function __construct(Response $response)
+    {
+        $this->response = $response;
+    }
+
+    public function isCreated(): bool
+    {
+        return Response::HTTP_CREATED === $this->response->getStatusCode();
+    }
+
+    public function isUnprocessable(): bool
+    {
+        return Response::HTTP_UNPROCESSABLE_ENTITY === $this->response->getStatusCode();
+    }
+
+    public function isOk(): bool
+    {
+        return $this->response->isOk();
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->response->isEmpty();
+    }
+
     public function isUnauthorized(): bool
-        {
-        return $this->response->getStatusCode() === Response::HTTP_UNAUTHORIZED;
-        }
+    {
+        return Response::HTTP_UNAUTHORIZED === $this->response->getStatusCode();
+    }
 
-    /**
-     * @return bool
-     */
     public function isForbidden(): bool
-        {
-        return $this->response->getStatusCode() === Response::HTTP_FORBIDDEN;
-        }
+    {
+        return Response::HTTP_FORBIDDEN === $this->response->getStatusCode();
+    }
 
-    /**
-     * @return bool
-     */
     public function isBadRequest(): bool
-        {
-        return $this->response->getStatusCode() === Response::HTTP_BAD_REQUEST;
-        }
+    {
+        return Response::HTTP_BAD_REQUEST === $this->response->getStatusCode();
+    }
+
+    public function isNotFound(): bool
+    {
+        return Response::HTTP_NOT_FOUND === $this->response->getStatusCode();
+    }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isNotFound(): bool
-        {
-        return $this->response->getStatusCode() === Response::HTTP_NOT_FOUND;
-        }
-
-	/**
-	 * @return mixed
-	 */
-	public function getJsonContent()
-		{
-		return json_decode($this->response->getContent(), true);
-		}
+    public function getJsonContent()
+    {
+        return json_decode($this->response->getContent(), true);
+    }
 
     /**
      * @return string
      */
     public function getRawContent()
-        {
+    {
         return $this->response->getContent();
-        }
+    }
 
-    /**
-     * @return int
-     */
     public function getStatusCode(): int
-        {
+    {
         return $this->response->getStatusCode();
-        }
+    }
 
-	/**
-	 * @return ResponseHeaderBag
-	 */
-	public function getHeaders(): ResponseHeaderBag
-		{
-		return $this->response->headers;
-		}
+    public function getHeaders(): ResponseHeaderBag
+    {
+        return $this->response->headers;
+    }
 
-	/**
-	 * @return Response
-	 */
-	public function getResponse(): Response
-		{
-		return $this->response;
-		}
-	}
+    public function getResponse(): Response
+    {
+        return $this->response;
+    }
+}
