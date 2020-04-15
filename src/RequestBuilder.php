@@ -304,7 +304,14 @@ class RequestBuilder
 	 * @return ResponseWrapper
 	 */
 	public function getResponse(): ResponseWrapper
-		{
+    {
+		if (empty($this->method)) {
+            throw new \LogicException(sprintf('Cannot call %s::getResponse() without adding a method. Please use %s::setMethod("GET")', __CLASS__,  __CLASS__));
+        }
+		if (empty($this->uri)) {
+            throw new \LogicException(sprintf('Cannot call %s::getResponse() without adding a URI. Please use %s::setUri("/homepage")', __CLASS__,  __CLASS__));
+        }
+
 		$this->client->request($this->method, $this->uri, $this->parameters, $this->files, $this->server, $this->content);
 
 		$responseWrapper = new ResponseWrapper($this->client->getResponse());
