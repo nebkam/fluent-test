@@ -26,9 +26,9 @@ $response = RequestBuilder::create($client)
 ### What about $server parameter?
 There's no `RequestBuilder::setServer` method, since it seemed to general to be semantic.
 Instead, you can use more specific methods (Thanks, @KristijanKanalas):
- - `::setHeader`
- - `::setHttpHeader`
- - `::setCredentials`
+ - `setHeader`
+ - `setHttpHeader`
+ - `setCredentials`
 
 (if you think of some other uses of server variables, feel free to write a semantic method for it in a PR)
 
@@ -72,7 +72,8 @@ $response = RequestBuilder::create($client)
   ...
 ```
 
-### JSON payload in the request
+### `setJsonContent`
+Send a JSON encoded payload with the request
 ```php
 // Before
 $response = $client->request($method, $uri, $parameters, $files, $server, json_encode($content));
@@ -124,7 +125,8 @@ $this->assertTrue($response->isOk());
 - `isNotFound`
 - `isUnprocessable`
 
-### JSON payload in the response
+### `getJsonContent`
+Get a JSON decoded body from the response
 ```php
 // Before
 $response = $client->request($method, $uri, $parameters, $files, $server, $content);
