@@ -7,7 +7,7 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        '@psr2' => true,
+        '@PSR2' => true,
         '@Symfony' => true,
     ])
     ->setFinder($finder)
