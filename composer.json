@@ -6,6 +6,7 @@
     "php": "^7.2",
     "symfony/framework-bundle": "^4.4 || ^5.0",
     "symfony/http-foundation": "^4.4.7 || ^5.0.7",
+    "symfony/browser-kit": "^4.4.7 || ^5.0.7",
     "ext-json": "*"
   },
   "autoload": {
