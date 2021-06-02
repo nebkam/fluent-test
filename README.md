@@ -1,3 +1,5 @@
+[![Latest Stable Version](https://poser.pugx.org/nebkam/fluent-test/v)](//packagist.org/packages/nebkam/fluent-test)
+
 # Fluent Test Helper
 Few classes to make your Symfony tests more readable
 
