@@ -1,5 +1,10 @@
 name: Tests
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 
 jobs:
 
@@ -13,46 +18,18 @@ jobs:
         sf_version: ['4.4.*', '5.0.*']
 
     steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@2.1.0
+      - uses: actions/checkout@v2
+      
+      - name: Setup PHP and extensions
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          coverage: pcov
-          tools: flex
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Download dependencies
+          php-version: '${{ matrix.php }}'
+       
+      - name: Install dependencies
+        run: composer install
         env:
+          COMPOSER_NO_INTERACTION: 1
           SYMFONY_REQUIRE: ${{ matrix.sf_version }}
-        run: |
-          composer update --no-interaction --prefer-dist --optimize-autoloader --prefer-stable
 
       - name: Run tests
         run: ./vendor/bin/simple-phpunit
-
-  lowest:
-    name: Lowest deps
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@2.1.0
-        with:
-          php-version: 7.2
-          coverage: pcov
-          tools: flex
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Download dependencies
-        run: |
-          composer update --no-interaction --prefer-dist --optimize-autoloader --prefer-stable --prefer-lowest
-
-      - name: Run tests
-        env:
-          SYMFONY_DEPRECATIONS_HELPER: "max[self]=0"
-        run: |
-          ./vendor/bin/simple-phpunit -v --coverage-text --coverage-clover=coverage.xml
-
