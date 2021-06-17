@@ -1,5 +1,7 @@
 vendor/*
 composer.lock
+composer.phar
+php-cs-fixer-v2.phar
 .idea/*
 .phpunit.result.cache
 .php_cs.cache

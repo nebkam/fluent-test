@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseWrapperTest extends TestCase
 {
-    public function testIsCreated()
+    public function testIsCreated(): void
     {
         $wrapper = new ResponseWrapper(new Response('', 201));
         $this->assertTrue($wrapper->isCreated());
