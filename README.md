@@ -3,8 +3,9 @@
 # Fluent Test Helper
 Few classes to make your Symfony tests more readable
 
-### Symfony 5
+### Symfony 5 & 6
 `composer require nebkam/fluent-test`
+
 ### Symfony 3 & 4
 `composer require nebkam/fluent-test:"^2.0"`
 
@@ -118,13 +119,13 @@ $this->assertTrue($response->isOk());
 ```
 
 ### List of _issers_
-- `isOk`
+- `isBadRequest`
 - `isCreated`
 - `isEmpty`
-- `isBadRequest`
-- `isUnauthorized`
 - `isForbidden`
 - `isNotFound`
+- `isOk`
+- `isUnauthorized`
 - `isUnprocessable`
 
 ### `getJsonContent`
