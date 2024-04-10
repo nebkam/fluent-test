@@ -4,9 +4,9 @@
   "license": "MIT",
   "require": {
     "php": "^7.2 || ^8.0",
-    "symfony/framework-bundle": "^4.4.7 || ^5.0.7 || 6.*",
-    "symfony/http-foundation": "^4.4.7 || ^5.0.7 || 6.*",
-    "symfony/browser-kit": "^4.4.7 || ^5.0.7 || 6.*",
+    "symfony/framework-bundle": "^4.4.7 || ^5.0.7 || 6.* || 7.*",
+    "symfony/http-foundation": "^4.4.7 || ^5.0.7 || 6.* || 7.*",
+    "symfony/browser-kit": "^4.4.7 || ^5.0.7 || 6.* || 7.*",
     "ext-json": "*"
   },
   "autoload": {
@@ -20,6 +20,6 @@
     }
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "^5.0 || 6.*"
+    "symfony/phpunit-bridge": "^5.0 || 6.* || 7.*"
   }
 }
