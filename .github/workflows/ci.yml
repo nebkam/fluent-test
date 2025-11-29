@@ -15,7 +15,7 @@ jobs:
       max-parallel: 10
       matrix:
         php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
-        sf_version: ['4.4.*', '5.0.*', '6.*', '7.*']
+        sf_version: ['4.4.*', '5.0.*', '6.*', '7.*', '8.*']
 
     steps:
       - uses: actions/checkout@v2
